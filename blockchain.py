@@ -5,6 +5,8 @@ from time import time
 from uuid import uuid4
 from urllib.parse import urlparse
 import requests
+import ellipticcurve
+from ellipticcurve.ecdsa import Ecdsa
 
 from flask import Flask, jsonify, request
 
@@ -138,7 +140,10 @@ class Blockchain(object):
         """
         transaction_copy = transaction.copy() # les dictionnaires sont passés par référence
         signature = transaction_copy.pop("transaction")
-        return Ecdsa.verify(self.hash(transaction_copy), signature, wallet["publickey"])
+        ecdsa_signature = ellipticcurve.signature.Signature.fromBase64(signature)
+        key = transaction_copy['sender']
+        ecdsa_key = ellipticcurve.publicKey.PublicKey.fromPem(key)
+        return Ecdsa.verify(self.hash(transaction_copy), signature, key)
 
     def register_node(self, address):
         """
