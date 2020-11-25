@@ -2,11 +2,11 @@ from ellipticcurve.ecdsa import Ecdsa
 from ellipticcurve.privateKey import PrivateKey
 import requests
 import hashlib
-
+import json
 
 NODE_ADRESS = "http://localhost:5000"
 
-ADMIN_PRIVATE_KEY = ellipticcurve.privateKey.PrivateKey.fromPem('-----BEGIN EC PRIVATE KEY-----\nMHQCAQEEID6TypbwEfEwdW0vgC7C4ObnBlGWmGW7avmg1QK710bfoAcGBSuBBAAK\noUQDQgAE7MTrJ3EZkwF/cz/Hv9OmmK1kI3oRQ4owzqZ0wDQaqMkCSaoNdDgN6Hvj\n38E0VbwZ0cuEnQmuhMjxBJ61EHwiJQ==\n-----END EC PRIVATE KEY-----\n')
+ADMIN_PRIVATE_KEY = PrivateKey.fromPem('-----BEGIN EC PRIVATE KEY-----\nMHQCAQEEID6TypbwEfEwdW0vgC7C4ObnBlGWmGW7avmg1QK710bfoAcGBSuBBAAK\noUQDQgAE7MTrJ3EZkwF/cz/Hv9OmmK1kI3oRQ4owzqZ0wDQaqMkCSaoNdDgN6Hvj\n38E0VbwZ0cuEnQmuhMjxBJ61EHwiJQ==\n-----END EC PRIVATE KEY-----\n')
 
 def hash(dictionnary):
     dictionnary_string = json.dumps(dictionnary, sort_keys=True).encode()
@@ -47,7 +47,7 @@ class Actor():
 
 
 
-admin = Actor(NODE_ADRESS, admin_private_key)
+admin = Actor(NODE_ADRESS, ADMIN_PRIVATE_KEY)
 
 suppliers = [Actor(NODE_ADRESS) for _ in range(10)]
 

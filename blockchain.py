@@ -7,6 +7,7 @@ from urllib.parse import urlparse
 import requests
 import ellipticcurve
 from ellipticcurve.ecdsa import Ecdsa
+from ellipticcurve.publicKey import PublicKey
 
 from flask import Flask, jsonify, request
 
@@ -148,7 +149,7 @@ class Blockchain(object):
         signature = transaction_copy.pop("signature")
         ecdsa_signature = ellipticcurve.signature.Signature.fromBase64(signature)
         key = transaction_copy['sender']
-        ecdsa_key = ellipticcurve.publicKey.PublicKey.fromPem(key)
+        ecdsa_key = PublicKey.fromPem(key)
         return Ecdsa.verify(self.hash(transaction_copy), ecdsa_signature, ecdsa_key)
 
     def register_node(self, address):
