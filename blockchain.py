@@ -150,7 +150,10 @@ class Blockchain(object):
         ecdsa_signature = ellipticcurve.signature.Signature.fromBase64(signature)
         key = transaction_copy['sender']
         ecdsa_key = PublicKey.fromPem(key)
-        return Ecdsa.verify(self.hash(transaction_copy), ecdsa_signature, ecdsa_key)
+        try:
+            return Ecdsa.verify(self.hash(transaction_copy), ecdsa_signature, ecdsa_key)
+        except:
+            return False
 
     def register_node(self, address):
         """
