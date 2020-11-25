@@ -38,7 +38,7 @@ class Actor():
         }
         transaction_input = requests.post(NODE_ADRESS+"/transactions/input", json = transaction).json()['transaction_input']
         if transaction_input is None:
-            Exception("invalid transaction")
+            print("invalid transaction")
         else:
             transaction['transaction_input'] = transaction_input
             signature = Ecdsa.sign(hash(transaction), self.privateKey)
@@ -52,3 +52,7 @@ admin = Actor(NODE_ADRESS, admin_private_key)
 suppliers = [Actor(NODE_ADRESS) for _ in range(10)]
 
 admin.send(suppliers[0], 123)
+suppliers[0].send(suppliers[1], 123)
+mine()
+suppliers[1].send(suppliers[5], 123)
+mine()
