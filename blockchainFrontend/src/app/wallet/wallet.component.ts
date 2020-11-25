@@ -22,13 +22,16 @@ export class WalletComponent implements OnInit {
   }
 
   generateKeys():void{
-    console.log("generateKeys called" + this.generated);
     if (this.generated === false || this.generated === null){
+
       this.publicKey = localStorage.getItem('publicKey');
       localStorage['publicKey'] = "test";
       this.publicKey = localStorage.getItem('publicKey');
       localStorage['generated'] = true;
       this.generated = localStorage.getItem('generated');
+
+      // this.keys = this.http.getKeys();     
+
     }
     else{
       alert("Keys already generated");

@@ -1,0 +1,24 @@
+.jumbotrontransactions{
+    margin: 0;
+    padding-top: 30px;
+    background-color: white;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+/* .jumbotrontransactions h1{
+    padding: 40px;
+    padding-bottom: 0;
+} */
+
+.transactionForm label{
+    padding: 10px 0 0px;
+}
+
+.transactionForm input{
+    max-width: 180px;
+}
+
+.transactionForm button{
+    margin: 20px 0px;
+}

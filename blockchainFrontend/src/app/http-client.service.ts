@@ -29,8 +29,8 @@ export class HttpClientService {
     return this.request('GET', `${environment.serverUrl}/keys`);
   }
 
-  create(event: any) {
-    return this.request('POST', `${environment.serverUrl}/event`, event);
+  createNewTransaction(values: any) {
+    return this.request('POST', `${environment.serverUrl}/transaction/new`, values);
   }
 
 }
