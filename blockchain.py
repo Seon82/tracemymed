@@ -12,7 +12,9 @@ from flask import Flask, jsonify, request
 
 
 class Blockchain(object):
-    baseAddress = "base" # Address of the origin
+
+    # Address of the origin
+    baseAddress = "-----BEGIN PUBLIC KEY-----\nMFYwEAYHKoZIzj0CAQYFK4EEAAoDQgAE7MTrJ3EZkwF/cz/Hv9OmmK1kI3oRQ4ow\nzqZ0wDQaqMkCSaoNdDgN6Hvj38E0VbwZ0cuEnQmuhMjxBJ61EHwiJQ==\n-----END PUBLIC KEY-----\n"
 
     def __init__(self):
         self.current_transactions = []
@@ -83,7 +85,11 @@ class Blockchain(object):
             'signature':signature
         }
 
-        self.UTXO.pop(transaction_input)
+        if sender!=Blockchain.baseAddress:
+            if transaction_input in self.UTXO:
+                self.UTXO.pop(transaction_input)
+            else:
+                return Exception("Invalid transaction input")
         self.UTXO[self.hash(transaction)] = transaction
         self.current_transactions.append(transaction)
         return self.last_block['index'] + 1
@@ -139,11 +145,11 @@ class Blockchain(object):
         :return: <bool>
         """
         transaction_copy = transaction.copy() # les dictionnaires sont passés par référence
-        signature = transaction_copy.pop("transaction")
+        signature = transaction_copy.pop("signature")
         ecdsa_signature = ellipticcurve.signature.Signature.fromBase64(signature)
         key = transaction_copy['sender']
         ecdsa_key = ellipticcurve.publicKey.PublicKey.fromPem(key)
-        return Ecdsa.verify(self.hash(transaction_copy), signature, key)
+        return Ecdsa.verify(self.hash(transaction_copy), ecdsa_signature, ecdsa_key)
 
     def register_node(self, address):
         """
@@ -195,7 +201,7 @@ class Blockchain(object):
                     input = transaction["transaction_input"]
 
                     if input in tempUTXO:
-                        if tempUTXO[input]["recipient"] == transaction["sender"]\\
+                        if tempUTXO[input]["recipient"] == transaction["sender"] \
                         and tempUTXO[input]["batchID"] == transaction["batchID"]:
                             tempUTXO.pop(input)
                             tempUTXO[self.hash(transaction)] = transaction
@@ -303,7 +309,7 @@ def new_transaction():
     values = request.get_json()
 
     # Check that the required fields are in the POST'ed data
-    required = ['sender', 'recipient', 'batchID', 'transaction_input', '']
+    required = ['sender', 'recipient', 'batchID', 'transaction_input', 'signature']
     if not all(k in values for k in required):
         return 'Missing values', 400
 
@@ -367,6 +373,13 @@ def consensus():
         }
 
     return jsonify(response), 200
+
+
+@app.route('/validity', methods=['GET'])
+def validity():
+    is_valid = blockchain.valid_chain(blockchain.chain)
+    return jsonify({'message':is_valid}), 200
+
 
 
 if __name__ == '__main__':
