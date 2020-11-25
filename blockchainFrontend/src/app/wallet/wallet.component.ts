@@ -10,19 +10,30 @@ import { HttpClientService } from '../http-client.service';
 })
 export class WalletComponent implements OnInit {
 
-  publicKey : any;
-  privateKey : any;
+  publicKey : string = "";
+  privateKey : string = "";
   keys : any;
-
+  generated : any;
   constructor(private http : HttpClientService) { }
 
   ngOnInit(): void {
-    this.publicKey = "";
-    this.privateKey = "";
+    this.publicKey = localStorage.getItem('publicKey')
+    this.generated = localStorage.getItem('generated')
   }
 
   generateKeys():void{
-    this.keys = this.http.getKeys()
+    console.log("generateKeys called" + this.generated);
+    if (this.generated === false || this.generated === null){
+      this.publicKey = localStorage.getItem('publicKey');
+      localStorage['publicKey'] = "test";
+      this.publicKey = localStorage.getItem('publicKey');
+      localStorage['generated'] = true;
+      this.generated = localStorage.getItem('generated');
+    }
+    else{
+      alert("Keys already generated");
+    }
+    // this.keys = this.http.getKeys();
   }
 
 }
