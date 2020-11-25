@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from ellipticcurve.ecdsa import Ecdsa
 from ellipticcurve.privateKey import PrivateKey
 
@@ -15,23 +17,54 @@ from ellipticcurve.privateKey import PrivateKey
 #print(L)
 
 
+# Creation of a namedtuple:
+Wallet = namedtuple('Wallet', ["privatekey", "publickey"])
 
-def wallet():
+def get_wallet():
+    ''' Returns a named tuple instance with the following attributes:
+        - privatekey
+        - publickey.
+
+        Access them using:
+            wallet = get_wallet()
+            wallet.privatekey # gives the private key
+            wallet.publickey # gives the public key.
+    '''
     prk = PrivateKey()
     pbk = prk.publicKey()
-    return {"privatekey": prk, "publickey": pbk}
+
+    return Wallet(privatekey=prk, publickey=pbk)
+
 
 def sign_tx(wallet, message):
-    signature = Ecdsa.sign(message, wallet["privatekey"])
+    ''' Returns a signature for a given wallet and string message.
+
+    Inputs:
+        - wallet (namedtuple instance)
+        - message (string)
+    '''
+    signature = Ecdsa.sign(message, wallet.privatekey)
     return signature
 
+
 def verify_signature(wallet, message, signature):
+    ''' Returns True of False if the signature matches the wallet's
+    public key for the given message. (NB: Each signature is associated
+    a specific message!)
+
+    Inputs:
+        - wallet (namedtuple instance)
+        - message (string)
+        - signature (output from sign_tx)
+    '''
     flag = Ecdsa.verify(message, signature, wallet["publickey"])
     return flag
 
 
+
+
 # Testing script
-w = wallet()
+w = get_wallet()
 print(w)
 
 
