@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+@import '~bootstrap//dist/css/bootstrap';
+
+body {
+    margin: 0;
+    font-family: 'Open Sans', 'Roboto', 'sans-serif';
+    font-size: 18px;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.list_nav li a{
+    padding: 0px 20px;
+}
+
+.navbar{
+    background-color: forestgreen;
+    min-height: 4em;
+}
+
+/* Importing Bootstrap SCSS file. */

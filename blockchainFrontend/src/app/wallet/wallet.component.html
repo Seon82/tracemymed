@@ -1,0 +1,17 @@
+<form onsubmit="generateKeys()">
+<div class="jumbotron jumbotronWallet">
+    <h1 class="display-4">Your wallet!</h1>
+    <p class="lead">Generate your wallet here, and get your unique secure keys</p>
+    <hr class="my-4">
+    <p>The keys are generated with an elliptic curve algorithm to garanty the safety of your personnal wallet</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg btnGenWallet" role="button" onclick="">Generate your wallet</a>
+    </p>
+</div>
+    <label for="publicKey" class="label">Public key :</label>
+    <textarea id="publicKey" class="form-control" type="text" placeholder="Your public key will show here" rows="3" readonly>{{publicKey}}</textarea>
+
+    <label for="privateKey" class="label" >Private key :</label>
+    <textarea id="privateKey" class="form-control" type="text" placeholder="Your private key will show here" rows="3" readonly>{{privateKey}}</textarea>
+  </form>
+

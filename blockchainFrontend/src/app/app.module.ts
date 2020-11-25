@@ -1,18 +1,34 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { HttpClientService } from './http-client.service';
+import { WalletComponent } from './wallet/wallet.component';
+import { TransactionsComponent } from './transactions/transactions.component';
+import { BlockchainComponent } from './blockchain/blockchain.component';
+import { AboutComponent } from './about/about.component';
+import { HomeComponent } from './home/home.component';
+
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    WalletComponent,
+    TransactionsComponent,
+    BlockchainComponent,
+    AboutComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [HttpClientService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
