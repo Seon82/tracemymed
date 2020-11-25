@@ -262,7 +262,7 @@ class Blockchain(object):
 
 
     def get_history(self, batchID):
-        """Returns a list that contains the history of 
+        """Returns a list that contains the history of
         transactions for a given batchID.
 
         Args:
@@ -279,8 +279,6 @@ class Blockchain(object):
             for transaction in block['transactions']:
                 if transaction['batchID'] == batchID:
                     history.append(transaction['batchID'])
-                else:
-                    pass
 
         return history
 
@@ -425,7 +423,7 @@ def history():
     history = blockchain.get_history(batchID)
 
     return jsonify({'history': history}), 200
-    
+
 
 
 if __name__ == '__main__':
