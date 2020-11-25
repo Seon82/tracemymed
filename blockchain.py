@@ -184,7 +184,7 @@ class Blockchain(object):
 
         neighbours = self.nodes
         new_chain = None
-
+        max_node = None
 
         # We're only looking for chains longer than ours
         max_length = len(self.chain)
@@ -201,13 +201,16 @@ class Blockchain(object):
                 if length > max_length and self.valid_chain(chain):
                     max_length = length
                     new_chain = chain
-
+                    max_node = node
 
         # Replace our chain if we discovered a new, valid chain longer than ours
         if new_chain:
+            new_utxo = requests.get(f'http://{node}/utxo').json()['utxo']
             self.chain = new_chain
+            self.UTXO = new_utxo
             return True
         return False
+
 # Instantiate our Node
 app = Flask(__name__)
 
@@ -260,6 +263,14 @@ def full_chain():
         'length': len(blockchain.chain),
     }
     return jsonify(response), 200
+
+@app.route('/utxo', methods=['GET'])
+def utxo():
+    response = {
+        'utxo': blockchain.UTXO,
+    }
+    return jsonify(response), 200
+
 
 @app.route('/nodes/register', methods=['POST'])
 def register_nodes():
