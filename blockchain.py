@@ -10,10 +10,13 @@ from flask import Flask, jsonify, request
 
 
 class Blockchain(object):
+    baseAddress = "base" # Address of the origin
+
     def __init__(self):
         self.current_transactions = []
         self.chain = []
         self.nodes = set()
+        self.UTXO = []
         # Create the genesis block
         self.new_block(previous_hash=1, proof=100)
 
@@ -39,21 +42,33 @@ class Blockchain(object):
         self.chain.append(block)
         return block
 
-    def new_transaction(self, sender, recipient, amount):
+
+    def new_transaction(self, sender, recipient, batchID):
         """
         Creates a new transaction to go into the next mined Block
         :param sender: <str> Address of the Sender
         :param recipient: <str> Address of the Recipient
-        :param amount: <int> Amount
+        :param batchID: <int> ID of the product
         :return: <int> The index of the Block that will hold this transaction
         """
-
-        self.current_transactions.append({
+        transaction_input = None
+        if sender!=Blockchain.baseAddress:
+            for i, possible_input in enumerate(self.UTXO):
+                if possible_input['recipient'] == sender and possible_input['batchID'] == batchID:
+                    transaction_input = possible_input
+                    self.UTXO.pop(i)
+                    break
+            if transaction_input is None:
+                return "No input transaction found"
+        transaction = {
             'sender': sender,
             'recipient': recipient,
-            'amount': amount,
-        })
+            'batchID': batchID,
+            'transaction_input':self.hash(transaction_input)
+        }
 
+        self.UTXO.append(transaction)
+        self.current_transactions.append(transaction)
         return self.last_block['index'] + 1
 
     @property
@@ -61,16 +76,17 @@ class Blockchain(object):
         return self.chain[-1]
 
     @staticmethod
-    def hash(block):
+    def hash(dictionnary):
         """
-        Creates a SHA-256 hash of a Block
-        :param block: <dict> Block
+        Creates a SHA-256 hash of a dict
+        :param block: <dict>
         :return: <str>
         """
 
         # We must make sure that the Dictionary is Ordered, or we'll have inconsistent hashes
-        block_string = json.dumps(block, sort_keys=True).encode()
-        return hashlib.sha256(block_string).hexdigest()
+        dictionnary_string = json.dumps(dictionnary, sort_keys=True).encode()
+        return hashlib.sha256(dictionnary_string).hexdigest()
+
 
     def proof_of_work(self, last_proof):
         """
@@ -119,6 +135,7 @@ class Blockchain(object):
 
         last_block = chain[0]
         current_index = 1
+        tempUTXO = dict() # maps self.hash(transaction) -> transaction
 
         while current_index < len(chain):
             block = chain[current_index]
@@ -133,10 +150,30 @@ class Blockchain(object):
             if not self.valid_proof(last_block['proof'], block['proof']):
                 return False
 
+            # Check that senders possess the products they're sending
+
+            for transaction in block['transactions']:
+                # Transactions from the base address are all accepted by default
+                if transaction['sender']==Blockchain.baseAddress:
+                    tempUTXO[self.hash(transaction)] = transaction
+                else:
+                    input = transaction["transaction_input"]
+                    if input in tempUTXO:
+                        if tempUTXO[input]["recipient"] == transaction["sender"] and tempUTXO[input]["batchID"] == transaction["batchID"]:
+                            tempUTXO.pop(input)
+                            tempUTXO[self.hash(transaction)] = transaction
+                        else:
+                            print(f"hash(transaction) : invalid transaction_input.")
+                            return False
+                    else:
+                        print(f"hash(transaction) : transaction_input isn't an UTXO")
+                        return False
+
             last_block = block
             current_index += 1
 
         return True
+
 
     def resolve_conflicts(self):
         """
@@ -147,6 +184,7 @@ class Blockchain(object):
 
         neighbours = self.nodes
         new_chain = None
+
 
         # We're only looking for chains longer than ours
         max_length = len(self.chain)
@@ -164,13 +202,12 @@ class Blockchain(object):
                     max_length = length
                     new_chain = chain
 
+
         # Replace our chain if we discovered a new, valid chain longer than ours
         if new_chain:
             self.chain = new_chain
             return True
-
         return False
-
 # Instantiate our Node
 app = Flask(__name__)
 
@@ -187,14 +224,6 @@ def mine():
     last_block = blockchain.last_block
     last_proof = last_block['proof']
     proof = blockchain.proof_of_work(last_proof)
-
-    # We must receive a reward for finding the proof.
-    # The sender is "0" to signify that this node has mined a new coin.
-    blockchain.new_transaction(
-        sender="0",
-        recipient=node_identifier,
-        amount=1,
-    )
 
     # Forge the new Block by adding it to the chain
     previous_hash = blockchain.hash(last_block)
@@ -214,12 +243,12 @@ def new_transaction():
     values = request.get_json()
 
     # Check that the required fields are in the POST'ed data
-    required = ['sender', 'recipient', 'amount']
+    required = ['sender', 'recipient', 'batchID']
     if not all(k in values for k in required):
         return 'Missing values', 400
 
     # Create a new Transaction
-    index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])
+    index = blockchain.new_transaction(values['sender'], values['recipient'], values['batchID'])
 
     response = {'message': f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
