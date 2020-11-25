@@ -260,6 +260,34 @@ class Blockchain(object):
             return True
         return False
 
+
+    def get_history(self, batchID):
+        """Returns a list that contains the history of 
+        transactions for a given batchID.
+
+        Args:
+            batchID (int)
+
+        Returns:
+            history (list): list of dictionaries with same keys
+                as get_input_transaction input
+        """
+
+        history = []
+
+        for block in self.chain:
+            for transaction in block['transactions']:
+                if transaction['batchID'] == batchID:
+                    history.append(transaction['batchID'])
+                else:
+                    pass
+
+        return history
+
+
+
+
+
 # Instantiate our Node
 app = Flask(__name__)
 
@@ -384,6 +412,20 @@ def validity():
     is_valid = blockchain.valid_chain(blockchain.chain)
     return jsonify({'message':is_valid}), 200
 
+@app.route('/history', methods=['POST'])
+def history():
+    values = request.get_json()
+
+    batchID = values.get('batchID')
+    if batchID is None:
+        return "Error: Please supply a valid batchID", 400
+    elif type(batchID) is not int:
+        return "Error: Please supply an integer", 400
+
+    history = blockchain.get_history(batchID)
+
+    return jsonify({'history': history}), 200
+    
 
 
 if __name__ == '__main__':
