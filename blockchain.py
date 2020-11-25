@@ -130,6 +130,16 @@ class Blockchain(object):
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
 
+    def valid_signature(self, transaction):
+        """
+        Validates the transaction signature : was the transaction really created by the sender ?
+        :param transaction: <dict>
+        :return: <bool>
+        """
+        transaction_copy = transaction.copy() # les dictionnaires sont passés par référence
+        signature = transaction_copy.pop("transaction")
+        return Ecdsa.verify(self.hash(transaction_copy), signature, wallet["publickey"])
+
     def register_node(self, address):
         """
         Add a new node to the list of nodes
@@ -168,18 +178,27 @@ class Blockchain(object):
             # Check that senders possess the products they're sending
 
             for transaction in block['transactions']:
+                # Check the signature
+                if not self.valid_signature(transaction):
+                    return False
+
                 # Transactions from the base address are all accepted by default
                 if transaction['sender']==Blockchain.baseAddress:
                     tempUTXO[self.hash(transaction)] = transaction
+
                 else:
                     input = transaction["transaction_input"]
+
                     if input in tempUTXO:
-                        if tempUTXO[input]["recipient"] == transaction["sender"] and tempUTXO[input]["batchID"] == transaction["batchID"]:
+                        if tempUTXO[input]["recipient"] == transaction["sender"]\\
+                        and tempUTXO[input]["batchID"] == transaction["batchID"]:
                             tempUTXO.pop(input)
                             tempUTXO[self.hash(transaction)] = transaction
+
                         else:
                             print(f"hash(transaction) : invalid transaction_input.")
                             return False
+
                     else:
                         print(f"hash(transaction) : transaction_input isn't an UTXO")
                         return False
