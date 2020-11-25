@@ -11,6 +11,7 @@ from ellipticcurve.publicKey import PublicKey
 
 from flask import Flask, jsonify, request
 
+from merkle_tree import findMerkleRoot
 
 class Blockchain(object):
 
