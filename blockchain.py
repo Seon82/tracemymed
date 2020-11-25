@@ -81,10 +81,7 @@ class Blockchain(object):
             'signature':signature
         }
 
-        if transaction_input in self.UTXO:
-            self.UTXO.pop(transaction_input)
-        else: # return None if the transaction used as input isn't an UTXO
-            return None
+        self.UTXO.pop(transaction_input)
         self.UTXO[self.hash(transaction)] = transaction
         self.current_transactions.append(transaction)
         return self.last_block['index'] + 1
@@ -259,8 +256,8 @@ def mine():
     }
     return jsonify(response), 200
 
-@app.route('/transactions/new', methods=['POST'])
-def new_transaction():
+@app.route('/transactions/input', methods=['POST'])
+def get_input_transaction():
     values = request.get_json()
 
     # Check that the required fields are in the POST'ed data
@@ -268,11 +265,31 @@ def new_transaction():
     if not all(k in values for k in required):
         return 'Missing values', 400
 
-    # Create a new Transaction
-    index = blockchain.new_transaction(values['sender'], values['recipient'], values['batchID'])
+    # get the transaction input
+    try:
+        index = blockchain.get_input_transaction(values['sender'], values['recipient'], values['batchID'])
+        response = {'transaction_input': index}
+        return jsonify(response), 200
+    except Exception as e:
+        return e.message, 400
 
-    response = {'message': f'Transaction will be added to Block {index}'}
-    return jsonify(response), 201
+
+@app.route('/transactions/new', methods=['POST'])
+def new_transaction():
+    values = request.get_json()
+
+    # Check that the required fields are in the POST'ed data
+    required = ['sender', 'recipient', 'batchID', 'transaction_input', '']
+    if not all(k in values for k in required):
+        return 'Missing values', 400
+
+    # Create a new Transaction
+    try:
+        index = blockchain.new_transaction(values['sender'], values['recipient'], values['batchID'], values['transaction_input'], values['signature'])
+        response = {'message': f'Transaction will be added to Block {index}'}
+        return jsonify(response), 201
+    except Exception as e:
+        return e.message, 400
 
 @app.route('/chain', methods=['GET'])
 def full_chain():
@@ -288,6 +305,8 @@ def utxo():
         'utxo': blockchain.UTXO,
     }
     return jsonify(response), 200
+
+
 
 
 @app.route('/nodes/register', methods=['POST'])
