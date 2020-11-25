@@ -16,7 +16,7 @@ class Blockchain(object):
         self.current_transactions = []
         self.chain = []
         self.nodes = set()
-        self.UTXO = []
+        self.UTXO = dict()
         # Create the genesis block
         self.new_block(previous_hash=1, proof=100)
 
@@ -43,31 +43,49 @@ class Blockchain(object):
         return block
 
 
-    def new_transaction(self, sender, recipient, batchID):
+
+    def get_input_transaction(self, sender, recipient, batchID):
+        """
+        Finds a UTXO where the product is received by sender.
+        :param sender: <str> Address of the Sender
+        :param recipient: <str> Address of the Recipient
+        :param batchID: <int> ID of the product
+        :return: <str> hash of the input transaction if found, an empty string if the sender is the baseAddress, and None otherwise
+        """
+
+        if sender==Blockchain.baseAddress:
+            return ""
+
+        for possible_input in self.UTXO.values():
+            if possible_input['recipient'] == sender and possible_input['batchID'] == batchID:
+                return self.hash(possible_input)
+
+
+
+    def new_transaction(self, sender, recipient, batchID, transaction_input, signature):
         """
         Creates a new transaction to go into the next mined Block
         :param sender: <str> Address of the Sender
         :param recipient: <str> Address of the Recipient
         :param batchID: <int> ID of the product
-        :return: <int> The index of the Block that will hold this transaction
+        :param transaction_input: <str> Hash of the input transaction
+        :param signature: <str> Transaction signature made using the sender's private key
+        :return: <int> The index of the Block that will hold this transaction, or None in case of error
         """
-        transaction_input = None
-        if sender!=Blockchain.baseAddress:
-            for i, possible_input in enumerate(self.UTXO):
-                if possible_input['recipient'] == sender and possible_input['batchID'] == batchID:
-                    transaction_input = possible_input
-                    self.UTXO.pop(i)
-                    break
-            if transaction_input is None:
-                return "No input transaction found"
+
         transaction = {
             'sender': sender,
             'recipient': recipient,
             'batchID': batchID,
-            'transaction_input':self.hash(transaction_input)
+            'transaction_input':transaction_input,
+            'signature':signature
         }
 
-        self.UTXO.append(transaction)
+        if transaction_input in self.UTXO:
+            self.UTXO.pop(transaction_input)
+        else: # return None if the transaction used as input isn't an UTXO
+            return None
+        self.UTXO[self.hash(transaction)] = transaction
         self.current_transactions.append(transaction)
         return self.last_block['index'] + 1
 
