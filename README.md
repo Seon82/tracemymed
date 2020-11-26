@@ -1,4 +1,4 @@
-# projet-blockchain
+# TraceMyMed (a blockchain project)
 
 [TOC]
 
@@ -17,10 +17,9 @@ It aims to implement a secure blockchain system that could be used to trace prod
 
 It also features a frontend *flask* that allows the client to easily:
 
-- Add initial items in the blockchain process
+- Create wallets (a wallet is a container for private and public keys)
 - Add new transactions while checking that they are possible
-- Check the blockchain's validity
-- [to complete]
+  - NB: To add initial items in the blockchain process, use the admin keys.
 
 
 
@@ -32,6 +31,7 @@ It also features a frontend *flask* that allows the client to easily:
 
 ## Installation
 
+### Backend
 Enter the shell terminal and run the following prompt to install the required modules:
 
 ```shell
@@ -44,8 +44,47 @@ or if you prefer Conda:
 conda env create --file requirements-conda.txt
 ```
 
+### Frontend
+
+First, move to the project folder using `cd`.
+
+Then run the following commands with bash:
+
+```bash
+conda install nodejs
+npm install -g @angular/cli
+cd ./Client/blockchainFrontend
+npm install
+```
+
 
 
 ## Usage
 
-1. To start ....
+1. Move to the project folder using `cd`.
+
+2. Run the *flask* backend servers on two different shells:
+
+   ```bash
+   python ./Blockchain/blockchain.py
+   ```
+
+   ```
+   python ./Client/crypto.py
+   ```
+
+3. Run the *angular* frontend server on another shell:
+
+   ```
+   ng serve -o
+   ```
+
+   Your default browser should open the webpage automatically.
+
+   Otherwise, enter the following url: http://localhost:4200/.
+
+
+
+## Testing
+
+(à compléter)
