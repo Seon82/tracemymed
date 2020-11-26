@@ -63,7 +63,8 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 @app.route('/keys', methods=['POST'])
 @cross_origin()
 def getKeys():
-    base = False
+    basejson = request.get_json()
+    base = basejson.get('base')
     # base = request.get_json().get('base')
 
     response = {}
