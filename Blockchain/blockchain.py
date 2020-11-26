@@ -12,6 +12,7 @@ from ellipticcurve.publicKey import PublicKey
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
+from merkle_tree import findMerkleRoot
 
 
 class Blockchain(object):
@@ -24,8 +25,28 @@ class Blockchain(object):
         self.chain = []
         self.nodes = set()
         self.UTXO = dict()
+        self.merkleroot = None
+
         # Create the genesis block
         self.new_block(previous_hash=1, proof=100)
+
+
+    def get_input_transaction(self, sender, recipient, batchID):
+        """
+        Finds a UTXO where the product is received by sender.
+        :param sender: <str> Address of the Sender
+        :param recipient: <str> Address of the Recipient
+        :param batchID: <int> ID of the product
+        :return: <str> hash of the input transaction if found, an empty string if the sender is the baseAddress, and None otherwise
+        """
+
+        if sender==Blockchain.baseAddress:
+            return ""
+
+        for possible_input in self.UTXO.values():
+            if possible_input['recipient'] == sender and possible_input['batchID'] == batchID:
+                return self.hash(possible_input)
+
 
     def new_block(self, proof, previous_hash=None):
         """
@@ -41,6 +62,9 @@ class Blockchain(object):
             'transactions': self.current_transactions,
             'proof': proof,
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
+
+            # Don't forget to five findMerkleRoot a string!
+            'merkleroot': findMerkleRoot(str(self.get_list_transaction_inputs())) 
         }
 
         # Reset the current list of transactions
@@ -49,6 +73,21 @@ class Blockchain(object):
         self.chain.append(block)
         return block
 
+
+    def get_list_transaction_inputs(self):
+        """Returns the list of all transaction inputs in the blockchain.
+        NB: A transaction input is a list of single transactions (that 
+        can be identified using their batchID).
+
+        Returns:
+            list
+        """
+        list_transaction_inputs = []
+
+        for block in self.chain:
+            list_transaction_inputs.append(block['transactions'])
+
+        return list_transaction_inputs
 
 
     def get_input_transaction(self, sender, recipient, batchID):
@@ -310,6 +349,7 @@ def mine():
     response = {
         'message': "New Block Forged",
         'index': block['index'],
+        'merkleroot': block['merkleroot'],
         'transactions': block['transactions'],
         'proof': block['proof'],
         'previous_hash': block['previous_hash'],

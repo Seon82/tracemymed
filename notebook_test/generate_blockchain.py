@@ -24,27 +24,34 @@ def hash(dictionnary):
     return hashlib.sha256(dictionnary_string).hexdigest()
 
 def mine():
-    '''Launch the 'mine' request on the flask server and get the
+    '''Launch the 'mine' request on the flask server and get the 
     appropriate response.'''
     return requests.get(NODE_ADRESS+"/mine").json()
 
 def chain():
-    '''Launch the 'chain' request on the flask server and get the
+    '''Launch the 'chain' request on the flask server and get the 
     appropriate response.'''
     return requests.get(NODE_ADRESS+"/chain").json()
 
 def utxo():
-    '''Launch the 'utxo' request on the flask server and get the
+    '''Launch the 'utxo' request on the flask server and get the 
     appropriate response.'''
     return requests.get(NODE_ADRESS+"/utxo").json()
 
 def val():
-    '''Launch the 'val' request on the flask server and get the
+    '''Launch the 'val' request on the flask server and get the 
     appropriate response.'''
     return requests.get(NODE_ADRESS+"/validity").json()
 
+def chain():
+    '''Launch the 'chain' request on the flask server and get the 
+    appropriate response.'''
+    return requests.get(NODE_ADRESS+"/chain").json()
+
+
+# FIXME: Error with request.post in test notebook
 def history_POST(batchID):
-    '''Launch the 'get_history' request on the flask server and get the
+    '''Launch the 'get_history' request on the flask server and get the 
     appropriate response.'''
     data = {'batchID': batchID}
     return requests.post(NODE_ADRESS+"/history", json=data).json()['history']
@@ -55,14 +62,14 @@ class Actor():
     Every actor has an private key and a public key for identification
     and signature purposes.
 
-    NB: To simplify the problem at hand, we have made the assumption
+    NB: To simplify the problem at hand, we have made the assumption 
     that each actor is associated to a dedicated node.
 
     Args:
         node_address (string)
         private_key (PrivateKey, optional). Defaults to None.
     """
-
+    
     def __init__(self, node_address, private_key = None):
         self.privateKey = private_key or PrivateKey()
         self.publicKey = self.privateKey.publicKey()
