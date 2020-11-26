@@ -1,3 +1,5 @@
+<img align="left" width="65" right="65" src="https://i.imgur.com/1itG47K.png">
+
 # TraceMyMed (a blockchain project)
 
 [TOC]
