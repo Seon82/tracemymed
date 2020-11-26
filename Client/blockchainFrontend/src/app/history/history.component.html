@@ -1,4 +1,7 @@
-<h3>Display a batch's transaction history</h3>
+<div class="jumbotron jumbotronHistory">
+    <h1 class="display-4">History tracking</h1>
+    <p class="lead">Display a batch's itinerary</p>
+</div>
 
 <form (ngSubmit)="getHistory(batchID)">
     <textarea [(ngModel)] = "batchID" class="form-control" type="number" placeholder="Enter batchID" name = "batchID" ></textarea>
@@ -13,7 +16,7 @@
                 <p class="card-text">{{transaction.sender}}</p>
                 </div>
             </div>
-            <img src="../assets/arrow.png" width="50" height="60" class="center" alt="">
+            <img src="../assets/arrow.png" width="50" height="60" class="arrow" alt="">
             <div *ngIf="isLast" class="card block">
                 <div class="card-body">
                     <p class="card-text">{{transaction.recipient}}</p>

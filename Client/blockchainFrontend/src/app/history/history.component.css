@@ -1,4 +1,13 @@
-.center {
+.jumbotronHistory{
+  margin: 0;
+  padding-top: 30px;
+  background-color: white;
+  text-align: center;
+  padding-bottom: 0px;
+}
+
+
+.arrow {
     margin-top : 15px;
     margin-bottom : 15px;
     display: block;
