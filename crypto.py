@@ -50,20 +50,34 @@ def verify_signature(wallet, message, signature):
     return flag
 
 
+
+
+
+
+basePrivateKey = PrivateKey.fromPem('-----BEGIN EC PRIVATE KEY-----\nMHQCAQEEID6TypbwEfEwdW0vgC7C4ObnBlGWmGW7avmg1QK710bfoAcGBSuBBAAK\noUQDQgAE7MTrJ3EZkwF/cz/Hv9OmmK1kI3oRQ4owzqZ0wDQaqMkCSaoNdDgN6Hvj\n38E0VbwZ0cuEnQmuhMjxBJ61EHwiJQ==\n-----END EC PRIVATE KEY-----\n')
+
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
 
 
-@app.route('/keys', methods=['GET'])
+@app.route('/keys', methods=['POST'])
 @cross_origin()
 def getKeys():
-    wallet = get_wallet()
-    response = {
-            'publicKey': str(wallet.publickey.toPem()),
-            'privateKey': str(wallet.privatekey.toPem())
+    base = request.get_json().get('base')
+    response = {}
+    if base:
+        response = {
+            'privateKey' : str(basePrivateKey.toPem()),
+            'publicKey': str(basePrivateKey.publicKey().toPem())
         }
+    else:
+        wallet = get_wallet()
+        response = {
+                'publicKey': str(wallet.publickey.toPem()),
+                'privateKey': str(wallet.privatekey.toPem())
+            }
     return jsonify(response), 200
 
 @app.route('/sign', methods=['POST'])
@@ -71,6 +85,7 @@ def getKeys():
 def signMessage():
     values = request.get_json()
     message = values.get('message')
+    print("#####"+values.get('privateKey')+"#####")
     privateKey = PrivateKey.fromPem(values.get('privateKey'))
     print(privateKey)
     response = sign_tx(privateKey, message)

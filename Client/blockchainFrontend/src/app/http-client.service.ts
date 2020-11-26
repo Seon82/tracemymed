@@ -25,14 +25,20 @@ export class HttpClientService {
   //   });
   // }
 
-  getKeys() {
+  getKeys(base) {
     return this.http
-    .get<any>(`${environment.cryptoUrl}/keys`)
+    .post<any>(`${environment.cryptoUrl}/keys`, base)
     .pipe(map(data => data));
   }
 
   signMessage(values: any) {
     return this.http.post<any>(`${environment.cryptoUrl}/sign`, values);
+  }
+
+  getChain() {
+    return this.http
+    .get<any>(`${environment.serverUrl}/utxo`)
+    .pipe(map(data => data));
   }
 
 

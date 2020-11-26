@@ -14,9 +14,23 @@ export class WalletComponent implements OnInit {
   privateKey : string = "";
   generated : any;
   alreadyWallet : boolean = false;
+  base : boolean = false;
 
 
   constructor(private http : HttpClientService) { }
+
+  changeBase(e){
+    console.log("base changed")
+    if (e.target.checked === true){
+      this.base = true;
+
+    }
+    else{
+      this.base = false;
+
+    }
+
+  }
 
   saveKeys(){
     localStorage['publicKey'] = this.publicKey
@@ -40,7 +54,7 @@ export class WalletComponent implements OnInit {
   }
 
   getKeys(){
-    this.http.getKeys().subscribe(
+    this.http.getKeys(this.base).subscribe(
           keys => {
             console.log("keys " + keys.privateKey)
             localStorage['publicKey'] = keys.publicKey;
