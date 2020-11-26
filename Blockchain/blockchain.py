@@ -217,8 +217,15 @@ class Blockchain(object):
             if not self.valid_proof(last_block['proof'], block['proof']):
                 return False
 
-            # Check that senders possess the products they're sending
 
+            # Check that the transactions in the block haven't been tampered with
+            transactions = block['transactions']
+            merkle_root = findMerkleRoot([self.hash(transaction) for transaction in transactions])
+            if merkle_root!=block['merkleroot']:
+                print("Wrong merkel root")
+                return False
+
+            # Check that senders possess the products they're sending
             for transaction in block['transactions']:
                 # Check the signature
                 if not self.valid_signature(transaction):
