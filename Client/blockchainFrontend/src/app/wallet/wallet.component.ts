@@ -54,7 +54,7 @@ export class WalletComponent implements OnInit {
   }
 
   getKeys(){
-    this.http.getKeys(this.base).subscribe(
+    this.http.getKeys({'base' : this.base}).subscribe(
           keys => {
             console.log("keys " + keys.privateKey)
             localStorage['publicKey'] = keys.publicKey;
