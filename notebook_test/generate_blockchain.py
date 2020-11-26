@@ -43,6 +43,12 @@ def val():
     appropriate response.'''
     return requests.get(NODE_ADRESS+"/validity").json()
 
+def chain():
+    '''Launch the 'chain' request on the flask server and get the 
+    appropriate response.'''
+    return requests.get(NODE_ADRESS+"/chain").json()
+
+
 # FIXME: Error with request.post in test notebook
 def history_POST(batchID):
     '''Launch the 'get_history' request on the flask server and get the 

@@ -60,7 +60,9 @@ class Blockchain(object):
             'transactions': self.current_transactions,
             'proof': proof,
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
-            'merkleroot': findMerkleRoot(self.get_list_transaction_inputs())
+
+            # Don't forget to five findMerkleRoot a string!
+            'merkleroot': findMerkleRoot(str(self.get_list_transaction_inputs())) 
         }
 
         # Reset the current list of transactions
@@ -334,6 +336,7 @@ def mine():
     response = {
         'message': "New Block Forged",
         'index': block['index'],
+        'merkleroot': block['merkleroot'],
         'transactions': block['transactions'],
         'proof': block['proof'],
         'previous_hash': block['previous_hash'],
