@@ -1,0 +1,11 @@
+.center {
+    margin-top : 15px;
+    margin-bottom : 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .historyContainer{
+    padding-top : 50px;
+  }

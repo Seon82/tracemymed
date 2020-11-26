@@ -17,10 +17,10 @@ export class HistoryComponent implements OnInit {
 
   getHistory(batchID){
     console.log(batchID)
-    this.http.getHistory({'batchID' : parseInt(batchID)}).
+    this.http.getHistory({'batchID' : batchID}).
     subscribe(
       history => {
-        this.history = history
+        this.history = history.history
         console.log(this.history)
       }
     )

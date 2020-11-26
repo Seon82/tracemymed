@@ -1,5 +1,23 @@
+<h3>Display a batch's transaction history</h3>
+
 <form (ngSubmit)="getHistory(batchID)">
     <textarea [(ngModel)] = "batchID" class="form-control" type="number" placeholder="Enter batchID" name = "batchID" ></textarea>
     <br>
     <button type="submit" class="btn btn-outline-primary btn-lg btnGenWallet" >Search</button>
 </form>
+
+<div class="historyContainer">
+    <ng-container *ngFor="let transaction of history; let isLast = last">
+        <div class="card block">
+            <div class="card-body">
+                <p class="card-text">{{transaction.sender}}</p>
+                </div>
+            </div>
+            <img src="../assets/arrow.png" width="50" height="60" class="center" alt="">
+            <div *ngIf="isLast" class="card block">
+                <div class="card-body">
+                    <p class="card-text">{{transaction.recipient}}</p>
+                    </div>
+                </div>
+    </ng-container>
+</div>

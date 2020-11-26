@@ -70,7 +70,7 @@ class Blockchain(object):
         Finds a UTXO where the product is received by sender.
         :param sender: <str> Address of the Sender
         :param recipient: <str> Address of the Recipient
-        :param batchID: <int> ID of the product
+        :param batchID: <str> ID of the product
         :return: <str> hash of the input transaction if found, an empty string if the sender is the baseAddress, and None otherwise
         """
 
@@ -88,7 +88,7 @@ class Blockchain(object):
         Creates a new transaction to go into the next mined Block
         :param sender: <str> Address of the Sender
         :param recipient: <str> Address of the Recipient
-        :param batchID: <int> ID of the product
+        :param batchID: <str> ID of the product
         :param transaction_input: <str> Hash of the input transaction
         :param signature: <str> Transaction signature made using the sender's private key
         :return: <int> The index of the Block that will hold this transaction, or None in case of error
@@ -292,7 +292,7 @@ class Blockchain(object):
         """Returns a list that contains the unordered history of
         transactions for a given batchID.
 
-        :param batchID: <int>
+        :param batchID: <str>
         :return history: <list> list of transaction with the correct batchID
         """
 
