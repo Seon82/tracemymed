@@ -14,3 +14,9 @@
 .label{
     padding: 10px 0px 5px 0px;
 }
+
+.btnSave{
+    margin: 20px;
+    margin-left: 0;
+    padding: 10px;
+}

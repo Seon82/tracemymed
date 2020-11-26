@@ -12,21 +12,51 @@ export class WalletComponent implements OnInit {
 
   publicKey : string = "";
   privateKey : string = "";
-  keys : any;
   generated : any;
+  alreadyWallet : boolean = false;
+
+
   constructor(private http : HttpClientService) { }
+
+  saveKeys(){
+    localStorage['publicKey'] = this.publicKey
+    localStorage['privateKey'] = this.privateKey
+    this.alreadyWallet = false
+  }
+
+  changeAlreadyWallet(bool){
+    this.alreadyWallet = bool;
+    console.log("changed alreadyWallet" + this.alreadyWallet)
+  }
 
   ngOnInit(): void {
     this.publicKey = localStorage.getItem('publicKey')
+    this.privateKey = localStorage.getItem('privateKey')
     this.generated = localStorage.getItem('generated')
+  }
+
+  changeGenWallet(bool){
+    localStorage['publicKey'] = bool;
+  }
+
+  getKeys(){
+    this.http.getKeys().subscribe(
+          keys => {
+            console.log("keys " + keys.privateKey)
+            localStorage['publicKey'] = keys.publicKey;
+            this.publicKey= keys.publicKey;
+            console.log(localStorage['publicKey'])
+            localStorage['privateKey'] = keys.privateKey;
+            this.privateKey= keys.privateKey;
+
+          }
+        )
   }
 
   generateKeys():void{
     if (this.generated === false || this.generated === null){
+      this.getKeys();
 
-      this.publicKey = localStorage.getItem('publicKey');
-      localStorage['publicKey'] = "test";
-      this.publicKey = localStorage.getItem('publicKey');
       localStorage['generated'] = true;
       this.generated = localStorage.getItem('generated');
 
@@ -36,7 +66,7 @@ export class WalletComponent implements OnInit {
     else{
       alert("Keys already generated");
     }
-    // this.keys = this.http.getKeys();
+    
   }
 
 }

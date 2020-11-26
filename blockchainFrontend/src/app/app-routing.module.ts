@@ -13,6 +13,7 @@ const routes: Routes = [
   { path: 'transactions', component: TransactionsComponent },
   { path: 'blockchain', component: BlockchainComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'enterwallet', component: AboutComponent },
 ];
 
 @NgModule({

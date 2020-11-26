@@ -5,13 +5,24 @@
         <hr class="my-4">
         <p>The keys are generated with an elliptic curve algorithm to garanty the safety of your personnal wallet</p>
         <p class="lead">
-        <button type="submit" class="btn btn-outline-success btn-lg btnGenWallet" >Generate your wallet</button>
+        <button type="submit" class="btn btn-outline-success btn-lg btnGenWallet" (click)="changeAlreadyWallet(false)">Generate your wallet</button>
+        <a class="btn btn-outline-primary btn-lg btnGenWallet" (click)="changeAlreadyWallet(true)">Already have a wallet?</a>
         </p>
     </div>
+    <div *ngIf = "alreadyWallet === false">
         <label for="publicKey" class="label">Public key :</label>
-        <textarea id="publicKey" class="form-control" type="text" placeholder="Your public key will show up here" rows="3" readonly>{{publicKey}}</textarea>
+        <textarea id="publicKey" class="form-control" type="text" placeholder="Your public key will show up here" rows="4" readonly>{{publicKey}}</textarea>
 
         <label for="privateKey" class="label" >Private key :</label>
-        <textarea id="privateKey" class="form-control" type="text" placeholder="Your private key will show up here" rows="3" readonly>{{privateKey}}</textarea>
-</form>
+        <textarea id="privateKey" class="form-control" type="text" placeholder="Your private key will show up here" rows="4" readonly>{{privateKey}}</textarea>
+    </div>
+    <div *ngIf = "alreadyWallet === true">
+        <label for="publicKey" class="label">Public key :</label>
+        <textarea [(ngModel)] = "publicKey" name="publicKey" class="form-control" type="text" placeholder="Enter your public key" rows="3"></textarea>
+        <label for="privateKey" class="label" >Private key :</label>
+        <textarea [(ngModel)] = "privateKey" name="privateKey" class="form-control" type="text" placeholder="Enter your privateKey key" rows="3"></textarea>
+        <a class="btn btn-outline-success btn-lg btnSave" (click)="saveKeys()">Save</a>
 
+    </div>
+
+ </form>

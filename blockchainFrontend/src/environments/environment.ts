@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  serverUrl : "http://0.0.0.0:5000"
+  serverUrl : "http://localhost:5000",
+  cryptoUrl : "http://localhost:5999"
 };
 
 /*
