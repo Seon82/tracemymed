@@ -72,16 +72,16 @@ npm install
    ```
 3. Start the client app:
 
-* Run the *flask* backend server in a separate shell:
-   ```
-   python ./Client/crypto.py
-   ```
+   * Run the *flask* backend server in a separate shell:
+     ```
+     python ./Client/crypto.py
+     ```
 
-* Run the *angular* frontend server on another shell:
+   * Run the *angular* frontend server on another shell:
 
-   ```
-   ng serve -o
-   ```
+     ```
+     ng serve -o
+     ```
 
    Your default browser should open the webpage automatically.
 
