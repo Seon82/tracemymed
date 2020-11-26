@@ -65,17 +65,19 @@ npm install
 
 1. Move to the project folder using `cd`.
 
-2. Run the *flask* backend servers on two different shells:
+2. Start a blockchain node:
 
    ```bash
    python ./Blockchain/blockchain.py
    ```
+3. Start the client app:
 
+* Run the *flask* backend server in a separate shell:
    ```
    python ./Client/crypto.py
    ```
 
-3. Run the *angular* frontend server on another shell:
+* Run the *angular* frontend server on another shell:
 
    ```
    ng serve -o
