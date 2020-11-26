@@ -45,7 +45,7 @@ def mine():
 @cross_origin()
 def get_input_transaction():
     values = request.get_json()
-
+    
     # Check that the required fields are in the POST'ed data
     required = ['sender', 'recipient', 'batchID']
     if not all(k in values for k in required):

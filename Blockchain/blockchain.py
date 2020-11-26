@@ -37,7 +37,7 @@ class Blockchain(object):
             return ""
 
         for possible_input in self.UTXO.values():
-            if possible_oinput['recipient'] == sender and possible_input['batchID'] == batchID:
+            if possible_input['recipient'] == sender and possible_input['batchID'] == batchID:
                 return self.hash(possible_input)
 
 

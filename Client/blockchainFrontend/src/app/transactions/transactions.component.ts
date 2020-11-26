@@ -29,7 +29,8 @@ export class TransactionsComponent implements OnInit {
             'privateKey' : localStorage["privateKey"],
             'message' : values
           }
-
+          console.log("TYPE")
+          console.log(typeof(toSign.privateKey))
           this.getSignature(toSign, values);
 
       }

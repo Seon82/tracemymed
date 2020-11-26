@@ -102,7 +102,7 @@ def signMessage():
     print(values.get('message'))
     message = hash(values.get('message'))
     print("#####"+values.get('privateKey')+"#####")
-    privateKey = PrivateKey.fromPem(values.get('privateKey'))
+    privateKey = PrivateKey.fromPem((values.get('privateKey')))
     print(privateKey)
     response = sign_tx(privateKey, message)
     return jsonify(response.toBase64()), 200

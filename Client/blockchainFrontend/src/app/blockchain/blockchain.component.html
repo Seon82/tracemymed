@@ -1,29 +1,26 @@
-<ng-container *ngFor="let bloc of chain">
-    <p>
-        Index : {{bloc.index}}
-    </p>
-    <p>
-        Merkleroot : {{bloc.merkleroot}}
-    </p>
-    <p>
-        previous_hash : {{bloc.previous_hash}}
-    </p>
-    <p>
-        proof : {{bloc.proof}}
-    </p>
-    <p>
-        timestamp : {{bloc.timestamp}}
-    </p>
-    
-    Transactions :
-    <p>
-        <ng-container *ngFor="let transaction of chain.transactions">
-            <p>
-                BatchID : {{bloc.BatchID}}
-            </p>
+<ng-container *ngFor="let block of chain">
+    <div class="card block">
 
-        </ng-container>
-    </p>
-
+        <div class="card-header">
+            <b>Index : {{block.index}}</b>
+        </div>
+        <div class="card-body">
+            <p class="card-text"><b>Merkleroot :</b> {{block.merkleroot}}</p>
+            <p class="card-text"><b>Previous hash :</b> {{block.previous_hash}}</p>
+            <p class="card-text"><b>Proof :</b> {{block.proof}}</p>
+            <p class="card-text"><b>Timestamp :</b> {{block.timestamp}}</p>
+            <h2>Transactions :</h2>
+            <div class = "transactionContainer" >
+            <ng-container *ngFor="let transaction of block.transactions">
+                    <p class="card-text"><b>BatchID :</b> {{transaction.batchID}}</p>
+                    <p class="card-text"><b>Recipient :</b> {{transaction.recipient}}</p>
+                    <p class="card-text"><b>Sender :</b> {{transaction.sender}}</p>
+                    <p class="card-text"><b>Signature :</b> {{transaction.signature}}</p>
+                    <p class="card-text"><b>Transaction_input : </b>{{transaction.transaction_input}}</p>
+                    <hr>
+                </ng-container>
+            </div>
+            </div>
+        </div>
 
 </ng-container>

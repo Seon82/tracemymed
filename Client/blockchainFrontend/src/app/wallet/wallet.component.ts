@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from '../http-client.service';
 
 
+
 @Component({
   selector: 'app-wallet',
   templateUrl: './wallet.component.html',
@@ -40,6 +41,10 @@ export class WalletComponent implements OnInit {
 
   changeAlreadyWallet(bool){
     this.alreadyWallet = bool;
+    localStorage['publicKey'] = ''
+    localStorage['privateKey'] = ''
+    this.publicKey = localStorage.getItem('publicKey')
+    this.privateKey = localStorage.getItem('privateKey')
     console.log("changed alreadyWallet" + this.alreadyWallet)
   }
 
