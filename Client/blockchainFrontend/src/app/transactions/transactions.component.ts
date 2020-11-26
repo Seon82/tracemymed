@@ -23,11 +23,11 @@ export class TransactionsComponent implements OnInit {
     this.http.getTransactionInput(values).subscribe(
         response => {
           values['transaction_input'] = response.transaction_input
-          var strMessage = JSON.stringify(values, Object.keys(values).sort())
+          // var strMessage = JSON.stringify(values, Object.keys(values).sort())
           
           var toSign = {
             'privateKey' : localStorage["privateKey"],
-            'message' : strMessage
+            'message' : values
           }
 
           this.getSignature(toSign, values);
@@ -43,6 +43,7 @@ export class TransactionsComponent implements OnInit {
         this.signedMessage = message
         console.log(this.signedMessage)
         values['signature'] = this.signedMessage
+        console.log(values)
         this.http.createNewTransaction(values).subscribe(
           confirmation => {
             console.log(confirmation)

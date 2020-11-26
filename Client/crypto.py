@@ -1,3 +1,6 @@
+import hashlib
+import json
+
 from collections import namedtuple
 
 from ellipticcurve.ecdsa import Ecdsa
@@ -49,6 +52,17 @@ def verify_signature(wallet, message, signature):
     flag = Ecdsa.verify(message, signature, wallet["publickey"])
     return flag
 
+def hash(dictionnary):
+        """
+        Creates a SHA-256 hash of a dict
+        :param block: <dict>
+        :return: <str>
+        """
+
+        # We must make sure that the Dictionary is Ordered, or we'll have inconsistent hashes
+        dictionnary_string = json.dumps(dictionnary, sort_keys=True).encode()
+        return hashlib.sha256(dictionnary_string).hexdigest()
+
 
 
 
@@ -85,7 +99,7 @@ def getKeys():
 @cross_origin()
 def signMessage():
     values = request.get_json()
-    message = values.get('message')
+    message = hash(values)
     print("#####"+values.get('privateKey')+"#####")
     privateKey = PrivateKey.fromPem(values.get('privateKey'))
     print(privateKey)
