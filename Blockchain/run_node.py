@@ -45,7 +45,7 @@ def mine():
 @cross_origin()
 def get_input_transaction():
     values = request.get_json()
-    
+
     # Check that the required fields are in the POST'ed data
     required = ['sender', 'recipient', 'batchID']
     if not all(k in values for k in required):
@@ -155,8 +155,8 @@ def history():
     batchID = values.get('batchID')
     if batchID is None:
         return "Error: Please supply a valid batchID", 400
-    elif type(batchID) is not int:
-        return "Error: Please supply an integer", 400
+    elif type(batchID) is not str:
+        return "Error: Please supply an string", 400
 
     history = blockchain.get_history(batchID)
 
