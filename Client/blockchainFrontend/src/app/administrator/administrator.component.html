@@ -1,0 +1,18 @@
+<form (ngSubmit)="generateKeys()">
+    <div class="jumbotron jumbotronWallet">
+        <h1 class="display-4">Admin wallet</h1>
+        <p class="lead">Get the base credentials of the chain</p>
+        <hr class="my-4">
+        <p>
+        <button type="submit" class="btn btn-outline-success btn-lg btnGenWallet" (click)="changeAlreadyWallet(false)">Generate base wallet</button>
+        </p>
+
+    </div>
+    <label for="publicKey" class="label">Public key :</label>
+    <textarea id="publicKey" class="form-control" type="text" placeholder="Your public key will show up here" rows="4" readonly>{{publicKey}}</textarea>
+
+    <label for="privateKey" class="label" >Private key :</label>
+    <textarea id="privateKey" class="form-control" type="text" placeholder="Your private key will show up here" rows="4" readonly>{{privateKey}}</textarea>
+
+
+ </form>

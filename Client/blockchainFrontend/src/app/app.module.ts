@@ -16,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { EnterWalletComponent } from './enter-wallet/enter-wallet.component';
 import { HistoryComponent } from './history/history.component';
+import { AdministratorComponent } from './administrator/administrator.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { HistoryComponent } from './history/history.component';
     AboutComponent,
     HomeComponent,
     EnterWalletComponent,
-    HistoryComponent
+    HistoryComponent,
+    AdministratorComponent
   ],
   imports: [
     BrowserModule,

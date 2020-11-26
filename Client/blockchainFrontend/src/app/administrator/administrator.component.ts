@@ -5,16 +5,16 @@ import { HttpClientService } from '../http-client.service';
 
 @Component({
   selector: 'app-wallet',
-  templateUrl: './wallet.component.html',
-  styleUrls: ['./wallet.component.css']
+  templateUrl: './administrator.component.html',
+  styleUrls: ['./administrator.component.css']
 })
-export class WalletComponent implements OnInit {
+export class AdministratorComponent implements OnInit {
 
   publicKey : string = "";
   privateKey : string = "";
   generated : any;
   alreadyWallet : boolean = false;
-  base : boolean = false;
+  base : boolean = true;
 
 
   constructor(private http : HttpClientService) { }

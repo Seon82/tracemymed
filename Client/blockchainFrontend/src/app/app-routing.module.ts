@@ -7,6 +7,7 @@ import { BlockchainComponent } from './blockchain/blockchain.component';
 import { AboutComponent } from './about/about.component';
 import { HomeComponent } from './home/home.component';
 import { HistoryComponent } from './history/history.component';
+import { AdministratorComponent } from './administrator/administrator.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   { path: 'enterwallet', component: AboutComponent },
   { path: 'history', component: HistoryComponent },
+  { path: 'administrator', component: AdministratorComponent },
 ];
 
 @NgModule({
