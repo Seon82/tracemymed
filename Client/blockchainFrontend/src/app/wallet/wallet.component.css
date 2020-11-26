@@ -6,8 +6,21 @@
     padding-bottom: 0px;
 }
 
+.jumbotronWallet input{
+    position: relative;
+    margin: 5px;
+    margin-left: 10px;
+
+}
+
+.jumbotronWallet label{
+    position: relative;
+    margin: 5px;
+
+}
+
 .btnGenWallet{
-    margin: 20px;
+    margin: 5px;
     padding: 10px;
 }
 

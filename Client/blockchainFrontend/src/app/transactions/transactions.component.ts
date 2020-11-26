@@ -36,6 +36,7 @@ export class TransactionsComponent implements OnInit {
   }
 
   getSignature(toSign, values){
+    console.log("privateKey = " + toSign['privateKey'] )
     this.http.signMessage(toSign).subscribe(
       message => {
         this.signedMessage = message
@@ -57,7 +58,7 @@ export class TransactionsComponent implements OnInit {
 
       var values = {
         'sender' : localStorage["publicKey"],
-        'recipient' : 'publicKeyRecipient', 
+        'recipient' : this.publicKeyRecipient, 
         'batchID' : this.batchID
       }
 
