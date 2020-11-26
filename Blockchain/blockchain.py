@@ -44,7 +44,7 @@ class Blockchain(object):
             return ""
 
         for possible_input in self.UTXO.values():
-            if possible_input['recipient'] == sender and possible_input['batchID'] == batchID:
+            if possible_oinput['recipient'] == sender and possible_input['batchID'] == batchID:
                 return self.hash(possible_input)
 
 
@@ -55,17 +55,14 @@ class Blockchain(object):
         :param previous_hash: (Optional) <str> Hash of previous Block
         :return: <dict> New Block
         """
-
         block = {
             'index': len(self.chain) + 1,
             'timestamp': time(),
             'transactions': self.current_transactions,
             'proof': proof,
             'previous_hash': previous_hash or self.hash(self.chain[-1]),
-
-            # Don't forget to five findMerkleRoot a string!
-            'merkleroot': findMerkleRoot(str(self.get_list_transaction_inputs())) 
-        }
+            'merkleroot': findMerkleRoot([self.hash(transaction) for transaction in self.current_transactions])
+            }
 
         # Reset the current list of transactions
         self.current_transactions = []
@@ -73,21 +70,6 @@ class Blockchain(object):
         self.chain.append(block)
         return block
 
-
-    def get_list_transaction_inputs(self):
-        """Returns the list of all transaction inputs in the blockchain.
-        NB: A transaction input is a list of single transactions (that 
-        can be identified using their batchID).
-
-        Returns:
-            list
-        """
-        list_transaction_inputs = []
-
-        for block in self.chain:
-            list_transaction_inputs.append(block['transactions'])
-
-        return list_transaction_inputs
 
 
     def get_input_transaction(self, sender, recipient, batchID):
@@ -132,6 +114,10 @@ class Blockchain(object):
                 self.UTXO.pop(transaction_input)
             else:
                 return Exception("Invalid transaction input")
+
+        if not self.valid_signature(transaction):
+            return Exception("Invalid signature")
+
         self.UTXO[self.hash(transaction)] = transaction
         self.current_transactions.append(transaction)
         return self.last_block['index'] + 1
@@ -389,6 +375,11 @@ def new_transaction():
     try:
         index = blockchain.new_transaction(values['sender'], values['recipient'], values['batchID'], values['transaction_input'], values['signature'])
         response = {'message': f'Transaction will be added to Block {index}'}
+        # We mine a new block after each transaction in this PoC
+        proof = blockchain.proof_of_work(blockchain.last_block['proof'])
+        previous_hash = blockchain.hash(blockchain.last_block)
+        block = blockchain.new_block(proof, previous_hash)
+
         return jsonify(response), 201
     except Exception as e:
         return e.message, 400
