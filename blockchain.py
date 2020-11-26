@@ -262,15 +262,11 @@ class Blockchain(object):
 
 
     def get_history(self, batchID):
-        """Returns a list that contains the history of
+        """Returns a list that contains the unordered history of
         transactions for a given batchID.
 
-        Args:
-            batchID (int)
-
-        Returns:
-            history (list): list of dictionaries with same keys
-                as get_input_transaction input
+        :param batchID: <int>
+        :return history: <list> list of transaction with the correct batchID
         """
 
         history = []
@@ -278,8 +274,7 @@ class Blockchain(object):
         for block in self.chain:
             for transaction in block['transactions']:
                 if transaction['batchID'] == batchID:
-                    history.append(transaction['batchID'])
-
+                    history.append(transaction)
         return history
 
 
