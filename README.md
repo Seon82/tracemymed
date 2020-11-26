@@ -2,7 +2,7 @@
 
 # TraceMyMed (a blockchain project)
 
-[TOC]
+Tony Wu, Dylan Sechet, Yoni Gozlan and Mouad El Mensoum.
 
 ## Description
 
