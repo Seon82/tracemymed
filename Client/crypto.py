@@ -9,6 +9,20 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
 
 
+#Tuto, How to:
+# Generate Keys
+#privateKey = PrivateKey()
+#publicKey = privateKey.publicKey()
+
+
+# Generate Signature
+#signature = Ecdsa.sign(message, privateKey)
+
+# Verify if signature is valid
+#L = Ecdsa.verify(message, signature, publicKey)
+#print(L)
+
+
 # Creation of a namedtuple:
 Wallet = namedtuple('Wallet', ["privatekey", "publickey"])
 
@@ -49,6 +63,21 @@ def verify_signature(wallet, message, signature):
     flag = Ecdsa.verify(message, signature, wallet["publickey"])
     return flag
 
+
+
+
+# Testing script
+# w = get_wallet()
+
+# message = "Hello world"
+
+# signature = sign_tx(w, message)
+
+# print(signature)
+
+# verification = verify_signature(w, message, signature)
+
+# print(verification)
 
 app = Flask(__name__)
 cors = CORS(app)
