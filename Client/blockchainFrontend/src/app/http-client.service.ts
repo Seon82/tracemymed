@@ -37,10 +37,21 @@ export class HttpClientService {
 
   getChain() {
     return this.http
+    .get<any>(`${environment.serverUrl}/chain`)
+    .pipe(map(data => data));
+  }
+
+  getUTXO() {
+    return this.http
     .get<any>(`${environment.serverUrl}/utxo`)
     .pipe(map(data => data));
   }
 
+  getHistory(batchID) {
+    return this.http
+    .post<any>(`${environment.serverUrl}/history`, batchID)
+    .pipe(map(data => data));
+  }
 
   createNewTransaction(values: any) {
     return this.http.post<any>(`${environment.serverUrl}/transactions/new`, values);

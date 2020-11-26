@@ -12,6 +12,7 @@ export class TransactionsComponent implements OnInit {
   publicKeyRecipient : string = "";
   batchID : string = "";
   signedMessage :any;
+  confirmation : any;
 
   constructor(private http : HttpClientService) { }
 
@@ -45,6 +46,7 @@ export class TransactionsComponent implements OnInit {
         this.http.createNewTransaction(values).subscribe(
           confirmation => {
             console.log(confirmation)
+            this.confirmation = confirmation.message;
           }
         )
       }

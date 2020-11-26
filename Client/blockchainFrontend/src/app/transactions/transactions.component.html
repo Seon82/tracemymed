@@ -5,10 +5,13 @@
     </div>
     <div class="transactionForm">
         <label for="amount" class="label">BatchID :</label>
-        <textarea [(ngModel)] = "batchID" class="form-control" type="number" placeholder="Enter the amount" name = "batchID" ></textarea>
+        <textarea [(ngModel)] = "batchID" class="form-control" type="number" placeholder="Enter batchID" name = "batchID" ></textarea>
         <label for="publicKeyRecipient" class="label">Public key of the recipient : </label>
         <textarea [(ngModel)] = "publicKeyRecipient" name="publicKeyRecipient" class="form-control" type="text" placeholder="Enter the public key of the recipient" rows="3"></textarea>
         <button type="submit" class="btn btn-outline-success btn-lg btnGenWallet" >Send</button>
+        <p>
+            <i>{{confirmation}}</i>
+        </p>
     </div>
 </form>
 

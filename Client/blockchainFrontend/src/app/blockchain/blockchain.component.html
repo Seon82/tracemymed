@@ -1,1 +1,29 @@
-<p>blockchain works!</p>
+<ng-container *ngFor="let bloc of chain">
+    <p>
+        Index : {{bloc.index}}
+    </p>
+    <p>
+        Merkleroot : {{bloc.merkleroot}}
+    </p>
+    <p>
+        previous_hash : {{bloc.previous_hash}}
+    </p>
+    <p>
+        proof : {{bloc.proof}}
+    </p>
+    <p>
+        timestamp : {{bloc.timestamp}}
+    </p>
+    
+    Transactions :
+    <p>
+        <ng-container *ngFor="let transaction of chain.transactions">
+            <p>
+                BatchID : {{bloc.BatchID}}
+            </p>
+
+        </ng-container>
+    </p>
+
+
+</ng-container>

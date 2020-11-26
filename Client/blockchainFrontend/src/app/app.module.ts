@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { EnterWalletComponent } from './enter-wallet/enter-wallet.component';
+import { HistoryComponent } from './history/history.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { EnterWalletComponent } from './enter-wallet/enter-wallet.component';
     BlockchainComponent,
     AboutComponent,
     HomeComponent,
-    EnterWalletComponent
+    EnterWalletComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
