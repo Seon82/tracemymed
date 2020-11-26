@@ -1,3 +1,5 @@
+import hashlib
+
 def doubleSha256(string):
     """Double-encryption for better safety.
 

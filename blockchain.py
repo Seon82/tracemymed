@@ -23,31 +23,10 @@ class Blockchain(object):
         self.chain = []
         self.nodes = set()
         self.UTXO = dict()
+        self.merkleroot = None
+
         # Create the genesis block
         self.new_block(previous_hash=1, proof=100)
-
-    def new_block(self, proof, previous_hash=None):
-        """
-        Create a new Block in the Blockchain
-        :param proof: <int> The proof given by the Proof of Work algorithm
-        :param previous_hash: (Optional) <str> Hash of previous Block
-        :return: <dict> New Block
-        """
-
-        block = {
-            'index': len(self.chain) + 1,
-            'timestamp': time(),
-            'transactions': self.current_transactions,
-            'proof': proof,
-            'previous_hash': previous_hash or self.hash(self.chain[-1]),
-        }
-
-        # Reset the current list of transactions
-        self.current_transactions = []
-
-        self.chain.append(block)
-        return block
-
 
 
     def get_input_transaction(self, sender, recipient, batchID):
@@ -65,6 +44,46 @@ class Blockchain(object):
         for possible_input in self.UTXO.values():
             if possible_input['recipient'] == sender and possible_input['batchID'] == batchID:
                 return self.hash(possible_input)
+
+
+    def new_block(self, proof, previous_hash=None):
+        """
+        Create a new Block in the Blockchain
+        :param proof: <int> The proof given by the Proof of Work algorithm
+        :param previous_hash: (Optional) <str> Hash of previous Block
+        :return: <dict> New Block
+        """
+
+        block = {
+            'index': len(self.chain) + 1,
+            'timestamp': time(),
+            'transactions': self.current_transactions,
+            'proof': proof,
+            'previous_hash': previous_hash or self.hash(self.chain[-1]),
+            'merkleroot': findMerkleRoot(self.get_list_transaction_inputs())
+        }
+
+        # Reset the current list of transactions
+        self.current_transactions = []
+
+        self.chain.append(block)
+        return block
+
+
+    def get_list_transaction_inputs(self):
+        """Returns the list of all transaction inputs in the blockchain.
+        NB: A transaction input is a list of single transactions (that 
+        can be identified using their batchID).
+
+        Returns:
+            list
+        """
+        list_transaction_inputs = []
+
+        for block in self.chain:
+            list_transaction_inputs.append(block['transactions'])
+
+        return list_transaction_inputs
 
 
 
@@ -94,6 +113,7 @@ class Blockchain(object):
                 return Exception("Invalid transaction input")
         self.UTXO[self.hash(transaction)] = transaction
         self.current_transactions.append(transaction)
+
         return self.last_block['index'] + 1
 
     @property
@@ -167,6 +187,7 @@ class Blockchain(object):
         self.nodes.add(parsed_url.netloc)
 
 
+    # TODO: Need to consider the merkleroot attribute for chain validation
     def valid_chain(self, chain):
         """
         Determine if a given blockchain is valid
