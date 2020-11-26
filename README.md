@@ -68,7 +68,7 @@ npm install
 2. Start a blockchain node:
 
    ```bash
-   python ./Blockchain/blockchain.py
+   python ./Blockchain/run_node.py
    ```
 3. Start the client app:
 
