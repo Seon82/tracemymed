@@ -99,7 +99,8 @@ def getKeys():
 @cross_origin()
 def signMessage():
     values = request.get_json()
-    message = hash(values)
+    print(values.get('message'))
+    message = hash(values.get('message'))
     print("#####"+values.get('privateKey')+"#####")
     privateKey = PrivateKey.fromPem(values.get('privateKey'))
     print(privateKey)
