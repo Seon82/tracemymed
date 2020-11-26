@@ -87,12 +87,12 @@ class Actor():
 
 
 # TESTING
-# admin = Actor(NODE_ADRESS, ADMIN_PRIVATE_KEY)
+admin = Actor(NODE_ADRESS, ADMIN_PRIVATE_KEY)
 
-# suppliers = [Actor(NODE_ADRESS) for _ in range(10)]
+suppliers = [Actor(NODE_ADRESS) for _ in range(10)]
 
-# admin.send(suppliers[0], 123)
-# suppliers[0].send(suppliers[1], 123)
-# mine()
-# suppliers[1].send(suppliers[5], 123)
-# mine()
+admin.send(suppliers[0], 123)
+suppliers[0].send(suppliers[1], 123)
+mine()
+suppliers[1].send(suppliers[5], 123)
+mine()
