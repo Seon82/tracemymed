@@ -1,3 +1,4 @@
+<img align="middle" src="https://s2.gifyu.com/images/ezgif.com-video-to-gif874167c2f88f8eed.gif" />
 <img align="left" width="65" right="65" src="https://i.imgur.com/1itG47K.png">
 
 # TraceMyMed (a blockchain project)
