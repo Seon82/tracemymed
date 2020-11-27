@@ -82,6 +82,7 @@ npm install
    * Run the *angular* frontend server in another shell:
 
      ```
+     cd Client/blockchainFrontend
      ng serve -o
      ```
 
