@@ -8,22 +8,23 @@ Tony Wu, Dylan Sechet, Yoni Gozlan and Mouad El Mensoum.
 
 This project is a 2nd-year project for the elective course "Introduction to Blockchain"  at CentraleSupélec.
 
-It aims to implement a secure blockchain system that could be used to trace products in the supply chain industry. It allows to:
+It aims to implement a secure blockchain system that could be used to trace medecine in order to bring more transaprency and security to the supply chain. It allows to:
 
-- Append transactions in the blockchain using *Proof of Work*
+- Append transactions to the blockchain using *Proof of Work*
 - Identify transactions with *elliptic curve* signature
 - Check if the current chain is valid
-- Solve conflicts by replacing the current chain with the longest one in the network.
+- Solve conflicts by replacing the current chain with the longest one in the network
+- And more!
 
 
 
-It also features a frontend *flask* that allows the client to easily:
+It also features a web-based frontend that allows the client to easily interact with the blockchain :
 
 - Create wallets (a wallet is a container for private and public keys)
 - Add new transactions while checking that they are possible
-  - NB: To add initial items in the blockchain process, use the admin keys.
-
-
+  - NB: To add initial items in the blockchain process, use the admin keys
+- Fetch and display the current blocks
+- Track the transaction history of a given batch.
 
 ## Dependencies
 
@@ -94,3 +95,5 @@ npm install
 * Start by generating and saving a few key keypairs, to represent the different actors along the chain (you can use the "Generate your wallet" button in the frontend for that - just reload the page once you've copied the credentials).
 * Log in as administrator by navigatin to the "Administrator" tab and generating the administrator wallet, then navigate to the transaction tab and create some initial transactions pointing to some of the public keys you've generated earlier.
 * Log in as the owner of one of the public keys you've send a product to in the previous step, and repeat ! You can take a look at the generated blockchain at any time in the "Blockchain" tab.
+
+NB : Some low-level tests that bypass the front-end client are also possible: examples are given in [notebook_test](./notebook-test/).
