@@ -97,4 +97,4 @@ npm install
 * Log in as administrator by navigatin to the "Administrator" tab and generating the administrator wallet, then navigate to the transaction tab and create some initial transactions pointing to some of the public keys you've generated earlier.
 * Log in as the owner of one of the public keys you've send a product to in the previous step, and repeat ! You can take a look at the generated blockchain at any time in the "Blockchain" tab.
 
-NB : Some low-level tests that bypass the front-end client are also possible: examples are given in [notebook_test](./notebook-test/).
+NB : Some low-level tests that bypass the front-end client are also possible: examples are given in [notebook_test](notebook-test/).
