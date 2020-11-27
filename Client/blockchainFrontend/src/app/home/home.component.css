@@ -9,3 +9,15 @@
 .guide{
     margin-top: 50px;
 }
+
+.left{
+    float: left;
+}
+
+.h2, .h3{
+    text-align: left;
+}
+
+.space-below{
+    margin-bottom: 20px;
+}
