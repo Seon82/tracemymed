@@ -52,7 +52,7 @@ conda env create --file requirements-conda.txt
 
 First, move to the project folder using `cd`.
 
-Then run the following commands in yout favorite shell:
+Then run the following commands in your favorite shell:
 
 ```bash
 conda install nodejs
