@@ -50,6 +50,9 @@ conda env create --file requirements-conda.txt
 
 ### Frontend
 
+You can now just use our heroku frontend : https://tracemymed.herokuapp.com/
+
+If you'd rather host the frontend locally, follow the instructions bleow.
 First, move to the project folder using `cd`.
 
 Then run the following commands in your favorite shell:
@@ -79,7 +82,7 @@ npm install
      python ./Client/crypto.py
      ```
 
-   * Run the *angular* frontend server in another shell:
+   * Run the *angular* frontend server in another shell (or use the [heroku page](https://tracemymed.herokuapp.com/)):
 
      ```
      cd Client/blockchainFrontend
