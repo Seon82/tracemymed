@@ -52,7 +52,7 @@ conda env create --file requirements-conda.txt
 
 You can now just use our heroku frontend : https://tracemymed.herokuapp.com/
 
-If you'd rather host the frontend locally, follow the instructions bleow.
+If you'd rather host the frontend locally, follow the instructions below.
 First, move to the project folder using `cd`.
 
 Then run the following commands in your favorite shell:
