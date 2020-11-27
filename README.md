@@ -79,7 +79,7 @@ npm install
      python ./Client/crypto.py
      ```
 
-   * Run the *angular* frontend server on another shell:
+   * Run the *angular* frontend server in another shell:
 
      ```
      ng serve -o
@@ -94,7 +94,7 @@ npm install
 ## Testing
 
 * Start by generating and saving a few key keypairs, to represent the different actors along the chain (you can use the "Generate your wallet" button in the frontend for that - just reload the page once you've copied the credentials).
-* Log in as administrator by navigatin to the "Administrator" tab and generating the administrator wallet, then navigate to the transaction tab and create some initial transactions pointing to some of the public keys you've generated earlier.
-* Log in as the owner of one of the public keys you've send a product to in the previous step, and repeat ! You can take a look at the generated blockchain at any time in the "Blockchain" tab.
+* Log in as administrator by navigating to the "Administrator" tab and generating the administrator wallet, then navigate to the transaction tab and create some initial transactions pointing to some of the public keys you've generated earlier.
+* Log in as the owner of one of the public keys you've send a product to in the previous step, and repeat ! You can take a look at the generated blockchain at any time in the "Blockchain" tab, or track a product's history in "History".
 
 NB : Some low-level tests that bypass the front-end client are also possible: some examples are given in [notebook_test](notebook_test/).
