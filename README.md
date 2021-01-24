@@ -27,6 +27,8 @@ It also features a web-based frontend that allows the client to easily interact 
 - Fetch and display the current blocks
 - Track the transaction history of a given batch.
 
+You can check out the fully functioning website at https://tracemymedcs.herokuapp.com/
+
 ## Dependencies
 
 - Works with `Python 3.8.5`
@@ -50,7 +52,7 @@ conda env create --file requirements-conda.txt
 
 ### Frontend
 
-You can now just use our heroku frontend and backend : https://tracemymed-cs.herokuapp.com/
+You can now just use our heroku frontend : https://tracemymed.herokuapp.com/
 
 If you'd rather host the frontend locally, follow the instructions below.
 First, move to the project folder using `cd`.
